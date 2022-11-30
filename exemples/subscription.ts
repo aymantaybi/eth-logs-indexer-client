@@ -1,4 +1,5 @@
 import { IndexerClient } from "../src";
+import { DecodedLog } from "../src/interfaces";
 
 (async () => {
   const url = "http://0.0.0.0:4000/graphql ";
@@ -6,18 +7,6 @@ import { IndexerClient } from "../src";
   const indexerClient = new IndexerClient({ url });
 
   await indexerClient.initialize();
-
-  console.log(indexerClient.indexerChainId);
-
-  const indexerFilters = await indexerClient.filters([]);
-
-  console.log(indexerFilters);
-
-  const query = { "transaction.blockNumber": { $gte: 18927621 } };
-
-  const indexerLogs = await indexerClient.executeQuery("100bbe60-6c0a-4d1c-8108-b98891eecc79", query);
-
-  console.log(indexerLogs);
 
   const addedFilters = await indexerClient.addFilters([
     {
@@ -50,15 +39,17 @@ import { IndexerClient } from "../src";
     },
   ]);
 
-  console.log(addedFilters);
+  const observer = await indexerClient.newLogs(addedFilters);
 
-  const removedFilters = await indexerClient.removeFilters(addedFilters);
+  const transfers: any[] = [];
 
-  console.log(removedFilters);
+  const subscription = observer.subscribe(({ data }) => {
+    const newTransfers = data.newLogs.map((log: DecodedLog) => log.event.inputs);
+    transfers.push(...newTransfers);
+    console.log(newTransfers);
+  });
 
-  indexerClient.start();
-
-  setTimeout(() => {
-    indexerClient.stop();
-  }, 10000);
+ /*  setTimeout(() => {
+    subscription.unsubscribe();
+  }, 10000); */
 })();

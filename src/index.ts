@@ -5,14 +5,12 @@ import { createClient } from "graphql-ws";
 import ws from "ws";
 import fetch from "cross-fetch";
 import { makeHttpURL, makeWsURL } from "./utils";
-import { defaultOptions, queries } from "./constants";
-
-interface IndexerClientConstructor {
-  url: string;
-}
+import { defaultOptions, queries, mutations, subscriptions } from "./constants";
+import { IndexerClientConstructor, MongoDBQuery, MongoDBQueryOptions, Filter, DecodedLog } from "./interfaces";
+import events from "events";
 
 export class IndexerClient {
-  apolloClient: ApolloClient<any>;
+  private apolloClient: ApolloClient<any>;
   indexerChainId: number | undefined;
 
   constructor({ url }: IndexerClientConstructor) {
@@ -48,16 +46,62 @@ export class IndexerClient {
     this.indexerChainId = await this.chainId();
   }
 
-  async chainId() {
+  async chainId(): Promise<number> {
     const query = queries.chainId;
     const response = await this.apolloClient.query({ query });
     return response.data.chainId;
   }
 
-  async filters(tags: string[]) {
+  async filters(tags: string[]): Promise<Filter[]> {
     const query = queries.filters;
     const variables = { tags };
     const response = await this.apolloClient.query({ query, variables });
     return response.data.filters;
+  }
+
+  async logsCounts(tags: string[]): Promise<number[]> {
+    const query = queries.logsCounts;
+    const variables = { tags };
+    const response = await this.apolloClient.query({ query, variables });
+    return response.data.logsCounts;
+  }
+
+  async executeQuery(tag: string, query: MongoDBQuery = {}, options: MongoDBQueryOptions = {}): Promise<DecodedLog[]> {
+    const variables = { tag, query, options };
+    const response = await this.apolloClient.query({ query: queries.executeQuery, variables });
+    return response.data.executeQuery;
+  }
+
+  async addFilters(filters: Filter[]): Promise<string[]> {
+    const mutation = mutations.addFilters;
+    const variables = { filters };
+    const response = await this.apolloClient.mutate({ mutation, variables });
+    return response.data.addFilters;
+  }
+
+  async removeFilters(tags: string[]): Promise<string[]> {
+    const mutation = mutations.removeFilters;
+    const variables = { tags };
+    const response = await this.apolloClient.mutate({ mutation, variables });
+    return response.data.removeFilters;
+  }
+
+  async start(blockNumber?: number): Promise<Boolean> {
+    const mutation = mutations.start;
+    const variables = { blockNumber };
+    const response = await this.apolloClient.mutate({ mutation, variables });
+    return response.data.start;
+  }
+
+  async stop(): Promise<Boolean> {
+    const mutation = mutations.stop;
+    const response = await this.apolloClient.mutate({ mutation });
+    return response.data.stop;
+  }
+
+  async newLogs(tags: string[]) {
+    const query = subscriptions.newLogs;
+    const variables = { tags };
+    return this.apolloClient.subscribe({ query, variables });
   }
 }
