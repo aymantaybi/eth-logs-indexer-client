@@ -67,6 +67,11 @@ export const queries = {
       executeQuery(tag: $tag, query: $query, options: $options)
     }
   `,
+  logsPreview: gql`
+    query LogsPreview($filter: FilterInput, $transactionHash: String) {
+      logsPreview(transactionHash: $transactionHash, filter: $filter)
+    }
+  `,
 };
 
 export const mutations = {

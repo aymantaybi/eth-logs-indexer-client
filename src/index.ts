@@ -7,7 +7,6 @@ import fetch from "cross-fetch";
 import { makeHttpURL, makeWsURL } from "./utils";
 import { defaultOptions, queries, mutations, subscriptions } from "./constants";
 import { IndexerClientConstructor, MongoDBQuery, MongoDBQueryOptions, Filter, DecodedLog } from "./interfaces";
-import events from "events";
 
 export class IndexerClient {
   private apolloClient: ApolloClient<any>;
@@ -70,6 +69,13 @@ export class IndexerClient {
     const variables = { tag, query, options };
     const response = await this.apolloClient.query({ query: queries.executeQuery, variables });
     return response.data.executeQuery;
+  }
+
+  async logsPreview(filter: Filter, transactionHash: string) {
+    const query = queries.logsPreview;
+    const variables = { filter, transactionHash };
+    const response = await this.apolloClient.query({ query, variables });
+    return response.data.logsPreview;
   }
 
   async addFilters(filters: Filter[]): Promise<string[]> {
