@@ -6,7 +6,7 @@ import { DecodedLog, Filter } from "../src/interfaces";
 
   const indexerClient = new IndexerClient({ url });
 
-  await indexerClient.initialize();
+  // indexerClient.initialize({ url });
 
   const filter: Filter = {
     chainId: 2020,

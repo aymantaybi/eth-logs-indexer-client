@@ -6,7 +6,7 @@ import { DecodedLog } from "../src/interfaces";
 
   const indexerClient = new IndexerClient({ url });
 
-  await indexerClient.initialize();
+  // indexerClient.initialize({ url });
 
   const addedFilters = await indexerClient.addFilters([
     {
@@ -49,7 +49,7 @@ import { DecodedLog } from "../src/interfaces";
     console.log(newTransfers);
   });
 
- /*  setTimeout(() => {
+  /*  setTimeout(() => {
     subscription.unsubscribe();
   }, 10000); */
 })();

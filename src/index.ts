@@ -13,6 +13,14 @@ export class IndexerClient {
   indexerChainId: number | undefined;
 
   constructor({ url }: IndexerClientConstructor) {
+    this.apolloClient = this.createApolloClient(url);
+  }
+
+  initialize({ url }: { url: string }) {
+    this.apolloClient = this.createApolloClient(url);
+  }
+
+  private createApolloClient(url: string) {
     const httpLink = new HttpLink({
       uri: makeHttpURL(url),
       fetch,
@@ -34,15 +42,11 @@ export class IndexerClient {
       httpLink
     );
 
-    this.apolloClient = new ApolloClient({
+    return new ApolloClient({
       link: splitLink,
       cache: new InMemoryCache(),
       defaultOptions,
     });
-  }
-
-  async initialize() {
-    this.indexerChainId = await this.chainId();
   }
 
   async chainId(): Promise<number> {

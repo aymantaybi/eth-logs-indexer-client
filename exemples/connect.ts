@@ -5,7 +5,7 @@ import { IndexerClient } from "../src";
 
   const indexerClient = new IndexerClient({ url });
 
-  await indexerClient.initialize();
+  // indexerClient.initialize({ url });
 
   console.log(indexerClient.indexerChainId);
 
