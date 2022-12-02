@@ -85,6 +85,12 @@ export class IndexerClient {
     return response.data.logsPreview;
   }
 
+  async status() {
+    const query = queries.status;
+    const response = await this.apolloClient.query({ query });
+    return response.data.status;
+  }
+
   async addFilters(filters: Filter[]): Promise<string[]> {
     const mutation = mutations.addFilters;
     const variables = { filters };
@@ -116,5 +122,10 @@ export class IndexerClient {
     const query = subscriptions.newLogs;
     const variables = { tags };
     return this.apolloClient.subscribe({ query, variables });
+  }
+
+  async statusUpdate() {
+    const query = subscriptions.statusUpdate;
+    return this.apolloClient.subscribe({ query });
   }
 }

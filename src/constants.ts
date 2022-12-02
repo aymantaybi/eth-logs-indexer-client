@@ -72,6 +72,11 @@ export const queries = {
       logsPreview(transactionHash: $transactionHash, filter: $filter)
     }
   `,
+  status: gql`
+    query Status {
+      status
+    }
+  `,
 };
 
 export const mutations = {
@@ -118,6 +123,11 @@ export const subscriptions = {
         logIndex
         transaction
       }
+    }
+  `,
+  statusUpdate: gql`
+    subscription StatusUpdate {
+      statusUpdate
     }
   `,
 };

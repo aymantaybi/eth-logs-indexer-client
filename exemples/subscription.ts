@@ -6,9 +6,15 @@ import { DecodedLog } from "../src/interfaces";
 
   const indexerClient = new IndexerClient({ url });
 
+  const observer = await indexerClient.statusUpdate();
+
+  const subscription = observer.subscribe(({ data }) => {
+    console.log(data);
+  });
+
   // indexerClient.initialize({ url });
 
-  const addedFilters = await indexerClient.addFilters([
+  /* const addedFilters = await indexerClient.addFilters([
     {
       chainId: 2020,
       address: "0xa8754b9fa15fc18bb59458815510e40a12cd2014",
@@ -47,7 +53,7 @@ import { DecodedLog } from "../src/interfaces";
     const newTransfers = data.newLogs.map((log: DecodedLog) => log.event.inputs);
     transfers.push(...newTransfers);
     console.log(newTransfers);
-  });
+  }); */
 
   /*  setTimeout(() => {
     subscription.unsubscribe();
