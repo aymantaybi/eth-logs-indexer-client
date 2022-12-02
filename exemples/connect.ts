@@ -7,8 +7,6 @@ import { IndexerClient } from "../src";
 
   // indexerClient.initialize({ url });
 
-  console.log(indexerClient.indexerChainId);
-
   const indexerFilters = await indexerClient.filters([]);
 
   console.log(indexerFilters);

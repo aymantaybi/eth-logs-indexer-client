@@ -9,8 +9,7 @@ import { defaultOptions, queries, mutations, subscriptions } from "./constants";
 import { IndexerClientConstructor, MongoDBQuery, MongoDBQueryOptions, Filter, DecodedLog } from "./interfaces";
 
 export class IndexerClient {
-  private apolloClient: ApolloClient<any>;
-  indexerChainId: number | undefined;
+  apolloClient: ApolloClient<any>;
   endpoint: string;
 
   constructor({ url }: IndexerClientConstructor) {
