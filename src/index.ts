@@ -31,7 +31,7 @@ export class IndexerClient {
     const wsLink = new GraphQLWsLink(
       createClient({
         url: makeWsURL(url),
-        webSocketImpl: ws,
+        webSocketImpl: typeof window !== "undefined" ? undefined : ws,
       })
     );
 
