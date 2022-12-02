@@ -1,4 +1,4 @@
-import { HttpLink, split, ApolloClient, InMemoryCache, gql } from "@apollo/client/core";
+import { HttpLink, split, ApolloClient, InMemoryCache, NormalizedCacheObject } from "@apollo/client/core";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
@@ -9,7 +9,7 @@ import { defaultOptions, queries, mutations, subscriptions } from "./constants";
 import { IndexerClientConstructor, MongoDBQuery, MongoDBQueryOptions, Filter, DecodedLog } from "./interfaces";
 
 export class IndexerClient {
-  apolloClient: ApolloClient<any>;
+  apolloClient: ApolloClient<NormalizedCacheObject>;
   endpoint: string;
 
   constructor({ url }: IndexerClientConstructor) {
