@@ -11,12 +11,15 @@ import { IndexerClientConstructor, MongoDBQuery, MongoDBQueryOptions, Filter, De
 export class IndexerClient {
   private apolloClient: ApolloClient<any>;
   indexerChainId: number | undefined;
+  endpoint: string;
 
   constructor({ url }: IndexerClientConstructor) {
+    this.endpoint = url;
     this.apolloClient = this.createApolloClient(url);
   }
 
   initialize({ url }: { url: string }) {
+    this.endpoint = url;
     this.apolloClient = this.createApolloClient(url);
   }
 
