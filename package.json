@@ -1,6 +1,6 @@
 {
   "name": "eth-logs-indexer-client",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Ethereum logs indexer client",
   "main": "dist/index.js",
   "files": [
