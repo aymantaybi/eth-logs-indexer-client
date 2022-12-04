@@ -20,36 +20,7 @@ export const defaultOptions: {
 export const queries = {
   filters: gql`
     query Filters($tags: [String]) {
-      filters(tags: $tags) {
-        chainId
-        address
-        tag
-        options {
-          include {
-            transaction
-          }
-        }
-        jsonInterface {
-          event {
-            anonymous
-            constant
-            name
-            payable
-            stateMutability
-            type
-            gas
-          }
-          function {
-            anonymous
-            constant
-            name
-            payable
-            stateMutability
-            type
-            gas
-          }
-        }
-      }
+      filters(tags: $tags)
     }
   `,
   chainId: gql`
