@@ -19,8 +19,8 @@ export const defaultOptions: {
 
 export const queries = {
   filters: gql`
-    query Filters($tags: [String]) {
-      filters(tags: $tags)
+    query Filters($ids: [String]) {
+      filters(ids: $ids)
     }
   `,
   chainId: gql`
@@ -29,13 +29,13 @@ export const queries = {
     }
   `,
   logsCounts: gql`
-    query LogsCounts($tags: [String!]!) {
-      logsCounts(tags: $tags)
+    query LogsCounts($ids: [String!]!) {
+      logsCounts(ids: $ids)
     }
   `,
   executeQuery: gql`
-    query ExecuteQuery($tag: String, $query: JSONObject, $options: JSONObject) {
-      executeQuery(tag: $tag, query: $query, options: $options)
+    query ExecuteQuery($id: String, $query: JSONObject, $options: JSONObject) {
+      executeQuery(id: $id, query: $query, options: $options)
     }
   `,
   logsPreview: gql`
@@ -57,8 +57,8 @@ export const mutations = {
     }
   `,
   removeFilters: gql`
-    mutation RemoveFilters($tags: [String!]!) {
-      removeFilters(tags: $tags)
+    mutation RemoveFilters($ids: [String!]!) {
+      removeFilters(ids: $ids)
     }
   `,
   start: gql`
@@ -75,16 +75,14 @@ export const mutations = {
 
 export const subscriptions = {
   newLogs: gql`
-    subscription NewLogs($tags: [String!]!) {
-      newLogs(tags: $tags) {
+    subscription NewLogs($ids: [String!]!) {
+      newLogs(ids: $ids) {
         address
+        filterId
         event {
           inputs
           name
           signature
-        }
-        filter {
-          tag
         }
         function {
           inputs

@@ -57,22 +57,22 @@ export class IndexerClient {
     return response.data.chainId;
   }
 
-  async filters(tags: string[]): Promise<Filter[]> {
+  async filters(ids: string[]): Promise<Filter[]> {
     const query = queries.filters;
-    const variables = { tags };
+    const variables = { ids };
     const response = await this.apolloClient.query({ query, variables });
     return response.data.filters;
   }
 
-  async logsCounts(tags: string[]): Promise<number[]> {
+  async logsCounts(ids: string[]): Promise<number[]> {
     const query = queries.logsCounts;
-    const variables = { tags };
+    const variables = { ids };
     const response = await this.apolloClient.query({ query, variables });
     return response.data.logsCounts;
   }
 
-  async executeQuery(tag: string, query: MongoDBQuery = {}, options: MongoDBQueryOptions = {}): Promise<DecodedLog[]> {
-    const variables = { tag, query, options };
+  async executeQuery(id: string, query: MongoDBQuery = {}, options: MongoDBQueryOptions = {}): Promise<DecodedLog[]> {
+    const variables = { id, query, options };
     const response = await this.apolloClient.query({ query: queries.executeQuery, variables });
     return response.data.executeQuery;
   }
@@ -97,9 +97,9 @@ export class IndexerClient {
     return response.data.addFilters;
   }
 
-  async removeFilters(tags: string[]): Promise<string[]> {
+  async removeFilters(ids: string[]): Promise<string[]> {
     const mutation = mutations.removeFilters;
-    const variables = { tags };
+    const variables = { ids };
     const response = await this.apolloClient.mutate({ mutation, variables });
     return response.data.removeFilters;
   }
@@ -117,9 +117,9 @@ export class IndexerClient {
     return response.data.stop;
   }
 
-  async newLogs(tags: string[]) {
+  async newLogs(ids: string[]) {
     const query = subscriptions.newLogs;
-    const variables = { tags };
+    const variables = { ids };
     return this.apolloClient.subscribe({ query, variables });
   }
 

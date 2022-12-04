@@ -11,9 +11,7 @@ export interface MongoDBQueryOptions extends MongoDBQuery {}
 export interface DecodedLog {
   address: string;
   logIndex: number;
-  filter: {
-    tag?: string;
-  };
+  filterId: string;
   event: {
     signature: string;
     name: string | undefined;
@@ -42,6 +40,7 @@ export interface DecodedLog {
 }
 
 export interface Filter {
+  id: string;
   tag?: string;
   chainId?: number;
   address: string;
