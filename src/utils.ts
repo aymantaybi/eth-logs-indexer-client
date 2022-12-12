@@ -5,5 +5,5 @@ export function makeWsURL(url: string) {
 
 export function makeHttpURL(url: string) {
   const protocol = url.split("://")[0];
-  return `${protocol == "https" ? "https" : "https"}://${url.split("://")[1]}`;
+  return `${protocol == "https" ? "https" : "http"}://${url.split("://")[1]}`;
 }
