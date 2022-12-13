@@ -1,3 +1,7 @@
+import { BlockTransactionString } from "web3-eth";
+import { Transaction } from "web3-core";
+import { AbiItem } from 'web3-utils';
+
 export interface IndexerClientConstructor {
   url: string;
 }
@@ -8,35 +12,21 @@ export interface MongoDBQuery {
 
 export interface MongoDBQueryOptions extends MongoDBQuery {}
 
-export interface DecodedLog {
+export interface RawLog {
   address: string;
-  logIndex: number;
-  filterId: string;
   event: {
     signature: string;
     name: string | undefined;
-    inputs: { [key: string]: any };
+    inputs: { [key: string]: unknown };
   };
-  function?: {
-    signature: string;
-    name: string | undefined | null;
-    inputs: { [key: string]: any };
-  };
-  transaction?: {
-    hash?: string;
-    nonce?: number;
-    blockHash?: string;
-    blockNumber?: number;
-    transactionIndex?: number;
-    from?: string;
-    to?: string | null;
-    value?: string;
-    gasPrice?: string;
-    maxPriorityFeePerGas?: number | string;
-    maxFeePerGas?: number | string;
-    gas?: number;
-    input?: string;
-  };
+}
+
+export interface DecodedLog extends RawLog {
+  function?: RawLog["event"];
+  transaction?: Partial<Transaction>;
+  block?: Partial<BlockTransactionString>;
+  filterId: string;
+  logIndex: number;
 }
 
 export interface Filter {
@@ -53,34 +43,4 @@ export interface Filter {
       transaction?: boolean | string[];
     };
   };
-}
-
-type AbiType = "function" | "constructor" | "event" | "fallback";
-type StateMutabilityType = "pure" | "view" | "nonpayable" | "payable";
-
-interface AbiItem {
-  anonymous?: boolean;
-  constant?: boolean;
-  inputs?: AbiInput[];
-  name?: string;
-  outputs?: AbiOutput[];
-  payable?: boolean;
-  stateMutability?: StateMutabilityType;
-  type: AbiType;
-  gas?: number;
-}
-
-interface AbiInput {
-  name: string;
-  type: string;
-  indexed?: boolean;
-  components?: AbiInput[];
-  internalType?: string;
-}
-
-interface AbiOutput {
-  name: string;
-  type: string;
-  components?: AbiOutput[];
-  internalType?: string;
 }
