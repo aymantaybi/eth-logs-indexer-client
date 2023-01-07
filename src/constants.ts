@@ -1,4 +1,4 @@
-import { FetchPolicy, gql } from "@apollo/client/core";
+import { DocumentNode, FetchPolicy, gql } from "@apollo/client/core";
 import { MutationFetchPolicy } from "@apollo/client/core/watchQueryOptions";
 
 export const defaultOptions: {
@@ -17,7 +17,7 @@ export const defaultOptions: {
   },
 };
 
-export const queries = {
+export const queries: { [query: string]: DocumentNode } = {
   filters: gql`
     query Filters($ids: [String]) {
       filters(ids: $ids)
@@ -36,6 +36,11 @@ export const queries = {
   executeQuery: gql`
     query ExecuteQuery($id: String, $query: JSONObject, $options: JSONObject) {
       executeQuery(id: $id, query: $query, options: $options)
+    }
+  `,
+  executeAggregation: gql`
+    query ExecuteAggregation($pipeline: JSON, $options: JSONObject) {
+      executeAggregation(pipeline: $pipeline, options: $options)
     }
   `,
   logsPreview: gql`

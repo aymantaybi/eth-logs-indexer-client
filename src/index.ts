@@ -77,6 +77,12 @@ export class IndexerClient {
     return response.data.executeQuery;
   }
 
+  async executeAggregation(pipeline: any = [], options: any = {}): Promise<any> {
+    const variables = { pipeline, options };
+    const response = await this.apolloClient.query({ query: queries.executeAggregation, variables });
+    return response.data.executeAggregation;
+  }
+
   async logsPreview(filter: Filter, transactionHash: string) {
     const query = queries.logsPreview;
     const variables = { filter, transactionHash };

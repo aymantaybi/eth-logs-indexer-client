@@ -5,9 +5,32 @@ import { IndexerClient } from "../src";
 
   const indexerClient = new IndexerClient({ url });
 
-  // indexerClient.initialize({ url });
+  indexerClient.initialize({ url });
 
-  const indexerFilters = await indexerClient.filters([]);
+  const result = await indexerClient.executeAggregation([
+    {
+      $match: {
+        filterId: "b979edc7-8d17-41e6-a57c-b89bd73f8ca2",
+      },
+    },
+    {
+      $group: {
+        _id: "$transaction.from",
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        count: -1,
+      },
+    },
+  ]);
+
+  console.log({ result });
+
+  /* const indexerFilters = await indexerClient.filters([]);
 
   console.log(indexerFilters);
 
@@ -58,5 +81,5 @@ import { IndexerClient } from "../src";
 
   setTimeout(() => {
     indexerClient.stop();
-  }, 10000);
+  }, 10000); */
 })();
