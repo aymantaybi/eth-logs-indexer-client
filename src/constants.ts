@@ -34,8 +34,8 @@ export const queries: { [query: string]: DocumentNode } = {
     }
   `,
   executeQuery: gql`
-    query ExecuteQuery($id: String, $query: JSONObject, $options: JSONObject) {
-      executeQuery(id: $id, query: $query, options: $options)
+    query ExecuteQuery($query: JSONObject, $options: JSONObject) {
+      executeQuery(query: $query, options: $options)
     }
   `,
   executeAggregation: gql`

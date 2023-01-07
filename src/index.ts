@@ -71,8 +71,8 @@ export class IndexerClient {
     return response.data.logsCounts;
   }
 
-  async executeQuery(id: string, query: MongoDBQuery = {}, options: MongoDBQueryOptions = {}): Promise<DecodedLog[]> {
-    const variables = { id, query, options };
+  async executeQuery(query: MongoDBQuery = {}, options: MongoDBQueryOptions = {}): Promise<DecodedLog[]> {
+    const variables = { query, options };
     const response = await this.apolloClient.query({ query: queries.executeQuery, variables });
     return response.data.executeQuery;
   }
